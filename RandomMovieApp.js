@@ -5,13 +5,11 @@ const apiKey = ""
 function getData() { 
 
     var providersChecked = getProviders();
+    var URL = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked;
 
-    fetch('https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked)
+    fetch(URL)
     .then(response => response.json())
     .then(data => printData(data));
-    // fetch('https://api.themoviedb.org/3/watch/providers/movie?api_key=c04d6f7883fb2359efc07488cd72203f&language=en-US&watch_region=CA')
-    // .then(response => response.json())
-    // .then(data => printData(data));
 }
 
 function getProviders() {
@@ -53,84 +51,26 @@ const PROVIDERS = {
     "Crave": 230
 }
 
-const GENRES = [
-    {
-        "id": 28,
-        "name": "Action"
-    },
-    {
-        "id": 12,
-        "name": "Adventure"
-    },
-    {
-        "id": 16,
-        "name": "Animation"
-    },
-    {
-        "id": 35,
-        "name": "Comedy"
-    },
-    {
-        "id": 80,
-        "name": "Crime"
-    },
-    {
-        "id": 99,
-        "name": "Documentary"
-    },
-    {
-        "id": 18,
-        "name": "Drama"
-    },
-    {
-        "id": 10751,
-        "name": "Family"
-    },
-    {
-        "id": 14,
-        "name": "Fantasy"
-    },
-    {
-        "id": 36,
-        "name": "History"
-    },
-    {
-        "id": 27,
-        "name": "Horror"
-    },
-    {
-        "id": 10402,
-        "name": "Music"
-    },
-    {
-        "id": 9648,
-        "name": "Mystery"
-    },
-    {
-        "id": 10749,
-        "name": "Romance"
-    },
-    {
-        "id": 878,
-        "name": "Science Fiction"
-    },
-    {
-        "id": 10770,
-        "name": "TV Movie"
-    },
-    {
-        "id": 53,
-        "name": "Thriller"
-    },
-    {
-        "id": 10752,
-        "name": "War"
-    },
-    {
-        "id": 37,
-        "name": "Western"
-    }
-]
+const GENRES =  {
+    "Action": 28,
+    "Adventure": 12,
+    "Animation": 16,
+    "Comedy": 35,
+    "Crime": 80,
+    "Documentary": 99,
+    "Drama": 18,
+    "Family": 10751,
+    "Fantasy": 14,
+    "Horror": 27,
+    "Music": 10402,
+    "Mystery": 9648,
+    "Romance": 10749,
+    "Science Fiction": 878,
+    "TV Movie": 10770,
+    "Thriller": 53,
+    "War": 10752,
+    "Western": 37   
+}
 
 // to get imdb rating:
 // use path to get imdb id then use the other api to get imdb rankings based on imdb id
@@ -145,8 +85,17 @@ const GENRES = [
 // 2. Type in which providers you have + criteria and it will show a list of all the movies you can watch - PRIORITY
 // 3. Random movie generator based on criteria (genre, year, providers, etc)
 
-// MVP:
+// MVP (V1):
 // Simple version of feature number 2:
 // Go onto the website, check which providers you have (capping it at Netflix, Prime, Disney+, Crave)
-// Select your region, then press Go and you will be shown all the movies available
-// Watch traversy media video to get an idea on how to show the results
+// Select other criteria such as genre, then press Go and you will be shown all the movies available
+// (Watch traversy media video to get an idea on how to show the results)
+
+// MVP (V2):
+// Get region of user and populate the providers based on region
+
+// MVP (V3):
+// Add randomize option to get you random movie based on criteria/providers
+
+// Final Product:
+// Add final styling for a sleek finish

@@ -1,21 +1,136 @@
+//import { PROVIDERS, GENRES } from "./Constants";
+
 const apiKey = ""
 
 function getData() { 
-    fetch('https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=8')
+
+    var providersChecked = getProviders();
+
+    fetch('https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked)
     .then(response => response.json())
     .then(data => printData(data));
-    // fetch('https://api.themoviedb.org/3/movie/436969/watch/providers?api_key=c04d6f7883fb2359efc07488cd72203f')
+    // fetch('https://api.themoviedb.org/3/watch/providers/movie?api_key=c04d6f7883fb2359efc07488cd72203f&language=en-US&watch_region=CA')
     // .then(response => response.json())
     // .then(data => printData(data));
 }
 
-function printData(data) {
-    if (document.getElementById("Netflix").checked) {
-        console.log(data)
+function getProviders() {
+
+    var providersContainer = document.getElementById("Providers");
+    var providers = providersContainer.getElementsByTagName("input");
+
+    var numberOfProvidersChecked = 0;
+    var providersChecked = "";
+    for(var i=0; i<providers.length; i++) {
+        currentProvider = PROVIDERS[providers[i].name].toString()
+
+        if (providers[i].checked) {
+            numberOfProvidersChecked++;
+
+            if (numberOfProvidersChecked > 1) {
+                providersChecked = providersChecked + "|"
+            } 
+    
+            providersChecked = providersChecked + currentProvider
+            
+        }
+
     }
-        
+    return providersChecked
+}
+
+function printData(data) {
+
+    console.log(data)
 
 }
+
+
+const PROVIDERS = {
+    "Netflix": 8,
+    "DisneyPlus": 337,
+    "Prime": 119,
+    "Crave": 230
+}
+
+const GENRES = [
+    {
+        "id": 28,
+        "name": "Action"
+    },
+    {
+        "id": 12,
+        "name": "Adventure"
+    },
+    {
+        "id": 16,
+        "name": "Animation"
+    },
+    {
+        "id": 35,
+        "name": "Comedy"
+    },
+    {
+        "id": 80,
+        "name": "Crime"
+    },
+    {
+        "id": 99,
+        "name": "Documentary"
+    },
+    {
+        "id": 18,
+        "name": "Drama"
+    },
+    {
+        "id": 10751,
+        "name": "Family"
+    },
+    {
+        "id": 14,
+        "name": "Fantasy"
+    },
+    {
+        "id": 36,
+        "name": "History"
+    },
+    {
+        "id": 27,
+        "name": "Horror"
+    },
+    {
+        "id": 10402,
+        "name": "Music"
+    },
+    {
+        "id": 9648,
+        "name": "Mystery"
+    },
+    {
+        "id": 10749,
+        "name": "Romance"
+    },
+    {
+        "id": 878,
+        "name": "Science Fiction"
+    },
+    {
+        "id": 10770,
+        "name": "TV Movie"
+    },
+    {
+        "id": 53,
+        "name": "Thriller"
+    },
+    {
+        "id": 10752,
+        "name": "War"
+    },
+    {
+        "id": 37,
+        "name": "Western"
+    }
+]
 
 // to get imdb rating:
 // use path to get imdb id then use the other api to get imdb rankings based on imdb id

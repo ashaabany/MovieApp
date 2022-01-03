@@ -1,4 +1,4 @@
-const PROVIDERS = [
+export const PROVIDERS = [
     {
         "name": "Netflix",
         "id": 8
@@ -17,7 +17,7 @@ const PROVIDERS = [
     }
 ]
 
-const GENRES = [
+export const GENRES = [
     {
         "id": 28,
         "name": "Action"

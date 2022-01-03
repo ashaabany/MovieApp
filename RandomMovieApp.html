@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Movie Generator</title>
+    <title>Movie Catalogue</title>
+    <link rel="stylesheet" href="Styles.css">
 </head>
 <body>
-    <h1>waddup</h1>
+    <h1>Movie Catalogue</h1>
     <script src="RandomMovieApp.js"></script>
-    <input type="checkbox" id="Netflix">
-    Netflix
-    <button onclick="getData()">click to get</button>
-</input>
-
+    <form>
+        <div class="checkboxes" id="Providers">
+          <label><input type="checkbox" id="Netflix" name="Netflix"> <span>Netflix</span></label>
+          <label><input type="checkbox" id="Prime" name="Prime"> <span>Prime</span></label>
+          <label><input type="checkbox" id="DisneyPlus" name="DisneyPlus"> <span>Disney+</span></label>
+          <label><input type="checkbox" id="Crave" name="Crave"> <span>Crave</span></label>
+        </div>
+      </form>
+    <button onclick="getData()">Show Movies!</button>
 </body>
 </html>

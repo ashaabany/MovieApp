@@ -69,16 +69,19 @@ function getProviders() {
 
 function getRatingInput() {
     var rating = document.getElementById("Rating").value
-    if (isNaN(rating) || rating=="") {
-        console.log("not a number");
-        return "0";
-    }
-    if (rating > 10 || rating < 0) {
-        console.log("not a valid rating");
+    if (!isValidRating(rating)) {
+        console.log("not a valid number");
         return "0";
     }
 
     return rating.toString()
+}
+
+function isValidRating(rating) {
+    if (isNaN(rating) || rating.trim()=="" || rating > 10 || rating < 0) {
+        return false;
+    }
+    return true;
 }
 
 function printData(data) {

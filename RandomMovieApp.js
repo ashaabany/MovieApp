@@ -1,15 +1,45 @@
-//import { PROVIDERS, GENRES } from "./Constants";
-
 const apiKey = ""
+var providersChecked;
+var ratingInput;
+var genreInput;
+var URL_string;
 
 function getData() { 
 
-    var providersChecked = getProviders();
-    var URL = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked;
+    providersChecked = getProviders();
+    ratingInput = getRatingInput();
+    genreInput = getGenreInput();
+    URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput;
 
-    fetch(URL)
+    fetch(URL_string)
     .then(response => response.json())
     .then(data => printData(data));
+}
+
+function getGenreInput() {
+
+    var genreContainer = document.getElementById("Genres");
+    var genres = genreContainer.getElementsByTagName("input");
+
+    var numberOfGenresChecked = 0;
+    var genresChecked = "";
+    for(var i=0; i<genres.length; i++) {
+        currentGenre = GENRES[genres[i].name].toString()
+
+        if (genres[i].checked) {
+            numberOfGenresChecked++;
+
+            if (numberOfGenresChecked > 1) {
+                genresChecked = genresChecked + "|"
+            } 
+    
+            genresChecked = genresChecked + currentGenre
+            
+        }
+
+    }
+    return genresChecked
+
 }
 
 function getProviders() {
@@ -37,9 +67,39 @@ function getProviders() {
     return providersChecked
 }
 
+function getRatingInput() {
+    var rating = document.getElementById("Rating").value
+    if (isNaN(rating) || rating=="") {
+        console.log("not a number");
+        return "0";
+    }
+    if (rating > 10 || rating < 0) {
+        console.log("not a valid rating");
+        return "0";
+    }
+
+    return rating.toString()
+}
+
 function printData(data) {
 
-    console.log(data)
+    if (data.total_pages > 1) {
+        var i = 1
+        while (i<=data.total_pages && i<=500) {
+            URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput + "&page=" + i;
+            fetch(URL_string)
+            .then(response => response.json())
+            .then(data2 => {
+                data2.results.forEach(element => {
+                    console.log(element.title)
+                });
+            });
+            i++;
+        }
+
+    }
+
+   // console.log(data)
 
 }
 
@@ -65,11 +125,9 @@ const GENRES =  {
     "Music": 10402,
     "Mystery": 9648,
     "Romance": 10749,
-    "Science Fiction": 878,
-    "TV Movie": 10770,
+    "ScienceFiction": 878,
     "Thriller": 53,
     "War": 10752,
-    "Western": 37   
 }
 
 // to get imdb rating:

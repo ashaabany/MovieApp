@@ -13,7 +13,19 @@ function getData() {
 
     fetch(URL_string)
     .then(response => response.json())
-    .then(data => printData(data));
+    .then(data => traversePages(data));
+}
+
+function randomMovieButton() { 
+
+    providersChecked = getProviders();
+    ratingInput = getRatingInput();
+    genreInput = getGenreInput();
+    URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput;
+
+    fetch(URL_string)
+    .then(response => response.json())
+    .then(data => getRandomMovie(data));
 }
 
 function getGenreInput() {
@@ -69,41 +81,85 @@ function getProviders() {
 
 function getRatingInput() {
     var rating = document.getElementById("Rating").value
-    if (!isValidRating(rating)) {
-        console.log("not a valid number");
+    if (rating.trim() == "") {
         return "0";
+    }
+
+    if (!isValidRating(rating)) {
+        alert("Rating: not a valid number");
     }
 
     return rating.toString()
 }
 
 function isValidRating(rating) {
-    if (isNaN(rating) || rating.trim()=="" || rating > 10 || rating < 0) {
+    if (isNaN(rating) || rating > 10 || rating < 0) {
         return false;
     }
     return true;
 }
 
-function printData(data) {
-
+function traversePages(data) {
     if (data.total_pages > 1) {
         var i = 1
         while (i<=data.total_pages && i<=500) {
+            
             URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput + "&page=" + i;
             fetch(URL_string)
             .then(response => response.json())
-            .then(data2 => {
-                data2.results.forEach(element => {
-                    console.log(element.title)
-                });
+            .then(pageData => {
+                getMovieDataForPage(pageData)
+                //console.log(movies);
             });
             i++;
         }
+    }
+}
 
+
+function getMovieDataForPage(pageData) {
+    var movies = [];
+    pageData.results.forEach(movie => {
+        movies.push(movie);
+    });
+
+    console.log(movies)
+
+}
+
+function getRandomMovie(data) {
+
+    randomPage = getRandomPage(data.total_pages)
+
+    URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput + "&page=" + randomPage;
+    fetch(URL_string)
+    .then(response => response.json())
+    .then(pageData => {
+        randomizeMovie(pageData)
+    });
+
+}
+
+function randomizeMovie(pageData) {
+    moviesInPage = pageData.results
+    randomMovie = moviesInPage[Math.floor(Math.random()*moviesInPage.length)]
+    document.getElementById("movie").innerHTML = randomMovie.title
+}
+
+function getRandomPage(pages) {
+    if (!pages) {
+        alert("No movies found!");
+        return
+    }
+    if (pages > 500) {
+        pages = 500;
     }
 
-   // console.log(data)
+    return Math.floor(Math.random() * pages + 1)
+}
 
+function getPageNumber() {
+    //function to get which page user is on to pull appropriate data
 }
 
 

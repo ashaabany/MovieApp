@@ -39,8 +39,8 @@
         </div>
         <div class="checkboxes" id="OtherCriteria" style="position: relative;">
             <h2>Step 3</h2>
-            <label>Rating ≥ <input type="text" id="Rating" name="Rating" placeholder="7.4"> <span>/10</span></label>
-            <label>Release date ≥ <input type="text" name="Year" list="Year" placeholder="1997">
+            <label>Rating ≥ <input type="text" id="Rating" name="Rating" placeholder="e.g. 7.4"> <span>/10</span></label>
+            <label>Release date ≥ <input type="text" name="Year" list="Year" placeholder="e.g. 1997">
                 <datalist id="Year">
                     <option value="1940">
                     <option value="1941">
@@ -130,6 +130,8 @@
         </div>
     </form>
     <button class="goButton" onClick="getData()">Show Movies!</button>
+    <button class="randomMovie" onClick="randomMovieButton()">Get Random Movie</button>
+    <p id="movie"></p>
 
 </body>
 </html>

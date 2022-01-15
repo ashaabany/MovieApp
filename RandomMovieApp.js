@@ -1,19 +1,19 @@
-const apiKey = ""
+const apiKey = "c04d6f7883fb2359efc07488cd72203f"
 var providersChecked;
 var ratingInput;
 var genreInput;
 var URL_string;
 
-function getData() { 
+async function getData() { 
 
     providersChecked = getProviders();
     ratingInput = getRatingInput();
     genreInput = getGenreInput();
     URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput;
 
-    fetch(URL_string)
-    .then(response => response.json())
-    .then(data => traversePages(data));
+    var response = await fetch(URL_string)
+    var data = await response.json()
+    traversePages(data)
 }
 
 function randomMovieButton() { 
@@ -100,7 +100,7 @@ function isValidRating(rating) {
 }
 
 function traversePages(data) {
-    if (data.total_pages > 1) {
+    if (data.total_pages >= 1) {
         var i = 1
         while (i<=data.total_pages && i<=500) {
             
@@ -109,22 +109,17 @@ function traversePages(data) {
             .then(response => response.json())
             .then(pageData => {
                 getMovieDataForPage(pageData)
-                //console.log(movies);
             });
             i++;
         }
+    } else {
+        alert("no results found")
     }
 }
 
 
 function getMovieDataForPage(pageData) {
-    var movies = [];
-    pageData.results.forEach(movie => {
-        movies.push(movie);
-    });
-
-    console.log(movies)
-
+    console.log(pageData)
 }
 
 function getRandomMovie(data) {
@@ -143,7 +138,7 @@ function getRandomMovie(data) {
 function randomizeMovie(pageData) {
     moviesInPage = pageData.results
     randomMovie = moviesInPage[Math.floor(Math.random()*moviesInPage.length)]
-    document.getElementById("movie").innerHTML = randomMovie.title
+    document.getElementById("movie").innerHTML = randomMovie.title + " - Rating: " + randomMovie.vote_average
 }
 
 function getRandomPage(pages) {
@@ -196,6 +191,9 @@ const GENRES =  {
 // - search (can query by name)
 // - discover (query by other parameters such as year or genre)
 // - watch providers option shows providers by region such as netflix
+
+// https://api.themoviedb.org/3/movie/343611/watch/providers?api_key=c04d6f7883fb2359efc07488cd72203f
+// gets the providers based on watch regions for the given movie ID
 
 // APP FEATURES
 // 1. Searches for a movie and gets rating, plot, providers (netflix, prime, etc)

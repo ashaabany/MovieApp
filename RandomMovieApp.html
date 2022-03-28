@@ -10,16 +10,17 @@
 <body>
     <h1>Movie Night</h1>
     <script src="RandomMovieApp.js"></script>
-    <form>  
+    <button onclick="filterClick()">Filters</button>
+    <form class="filterSteps">  
         <div class="checkboxes" id="Providers">
-            <h2>Step 1</h2>
+            <h2>Step 1: Providers</h2>
           <label><input type="checkbox" id="Netflix" name="Netflix"> <span>Netflix</span></label>
           <label><input type="checkbox" id="Prime" name="Prime"> <span>Prime</span></label>
           <label><input type="checkbox" id="DisneyPlus" name="DisneyPlus"> <span>Disney+</span></label>
           <label><input type="checkbox" id="Crave" name="Crave"> <span>Crave</span></label>
         </div>
         <div class="checkboxes" id="Genres">
-            <h2>Step 2</h2>
+            <h2>Step 2: Genres</h2>
             <label><input type="checkbox" id="Action" name="Action"> <span>Action</span></label>
             <label><input type="checkbox" id="Adventure" name="Adventure"> <span>Adventure</span></label>
             <label><input type="checkbox" id="Animation" name="Animation"> <span>Animation</span></label>
@@ -38,7 +39,7 @@
             <label><input type="checkbox" id="War" name="War"> <span>War</span></label>
         </div>
         <div class="checkboxes" id="OtherCriteria" style="position: relative;">
-            <h2>Step 3</h2>
+            <h2>Step 3: Other</h2>
             <label>Rating ≥ <input type="text" id="Rating" name="Rating" placeholder="e.g. 7.4"> <span>/10</span></label>
             <label>Release date ≥ <input type="text" name="Year" list="Year" placeholder="e.g. 1997">
                 <datalist id="Year">
@@ -129,9 +130,9 @@
             </label>
         </div>
     </form>
-    <button class="goButton" onClick="getData()">Show Movies!</button>
-    <button class="randomMovie" onClick="randomMovieButton()">Get Random Movie</button>
-    <p id="movie"></p>
+    <button class="goButton" onClick="getData()">Next</button>
+    <!-- <button class="randomMovie" onClick="randomMovieButton()">Get Random Movie</button>
+    <p id="movie"></p> -->
 
 </body>
 </html>

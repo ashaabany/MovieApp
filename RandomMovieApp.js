@@ -3,17 +3,35 @@ var providersChecked;
 var ratingInput;
 var genreInput;
 var URL_string;
+var currentStep = 1;
+
+window.onload = () => {
+    //can put duplicates between get data and random movie button here (the variables)
+}
 
 async function getData() { 
+    let button = document.querySelector(".goButton")
+    let stepTwo = document.getElementById("Genres")
+    let stepThree = document.getElementById("OtherCriteria")
 
-    providersChecked = getProviders();
-    ratingInput = getRatingInput();
-    genreInput = getGenreInput();
-    URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput;
+    if (currentStep == 1) {
+        stepTwo.style.display = "inline"
+        currentStep++;
+    } else if (currentStep == 2) {
+        stepThree.style.display = "inline"
+        button.innerHTML = "Show Movies!"
+        currentStep++;
+    } else if (currentStep == 3) {
+        providersChecked = getProviders();
+        ratingInput = getRatingInput();
+        genreInput = getGenreInput();
+        URL_string = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&watch_region=CA&with_watch_providers=' + providersChecked + '&vote_average.gte=' + ratingInput + "&with_genres=" + genreInput;
+    
+        var response = await fetch(URL_string)
+        var data = await response.json()
+        traversePages(data)
+    }
 
-    var response = await fetch(URL_string)
-    var data = await response.json()
-    traversePages(data)
 }
 
 function randomMovieButton() { 
@@ -26,6 +44,19 @@ function randomMovieButton() {
     fetch(URL_string)
     .then(response => response.json())
     .then(data => getRandomMovie(data));
+}
+
+function filterClick() {
+    let filterButton = document.querySelector("form");
+    let stepsDisplayed = filterButton.style.display
+
+    if (!stepsDisplayed) {
+        return filterButton.style.display = "grid";
+    }
+
+    filterButton.style.display = ""
+
+    
 }
 
 function getGenreInput() {

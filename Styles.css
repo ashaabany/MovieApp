@@ -7,7 +7,7 @@
   }
 
   form {
-    display: grid; 
+    display: none; 
     grid-template-columns: 30% 30% 30%;
   }
 
@@ -22,4 +22,12 @@
   }
   .checkboxes label span {
     vertical-align: middle;
+  }
+
+  #Genres {
+    display: none;
+  }
+
+  #OtherCriteria {
+    display: none;
   }
